@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Valentine Surprise 💖</title>
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    background: linear-gradient(to top, #ff9a9e, #fad0c4);
+  }
+
+  h1 {
+    position: absolute;
+    top: 40px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: 2.6em;
+    text-shadow: 2px 2px 5px red;
+  }
+
+  #buttons {
+    display: flex;
+    gap: 50px;
+    z-index: 5;
+  }
+
+  button {
+    padding: 20px 45px;
+    font-size: 1.6em;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.25s;
+  }
+
+  #yesBtn {
+    background: #ff4081;
+    color: white;
+  }
+
+  #yesBtn:hover {
+    transform: scale(1.15);
+    background: #ff1e5b;
+  }
+
+  #noBtn {
+    background: #ffeb3b;
+  }
+
+  /* balloons */
+  .balloon {
+    position: absolute;
+    width: 60px;
+    height: 80px;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: float 6s infinite ease-in-out;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-120px); }
+    100% { transform: translateY(0); }
+  }
+
+  /* hearts */
+  .heart {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: red;
+    transform: rotate(-45deg);
+    animation: fall 6s linear infinite;
+  }
+
+  .heart::before,
+  .heart::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: red;
+    border-radius: 50%;
+  }
+
+  .heart::before { top: -10px; }
+  .heart::after { left: 10px; }
+
+  @keyframes fall {
+    from { transform: translateY(-50px) rotate(-45deg); opacity: 1; }
+    to { transform: translateY(700px) rotate(-45deg); opacity: 0; }
+  }
+
+  /* teasing message */
+  #message {
+    position: absolute;
+    bottom: 30px;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+
+  /* BIG LOVE MESSAGE SCREEN */
+  #loveScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: pink;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 1000;
+    animation: pop 0.6s ease;
+  }
+
+  #loveScreen h2 {
+    font-size: 4em;
+    color: black;
+    font-weight: 900;
+    padding: 40px;
+  }
+
+  @keyframes pop {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+</style>
+</head>
+
+<body>
+
+<h1>Kanchi, will you be my Valentine? </h1>
+
+<div id="buttons">
+  <button id="yesBtn">Yes </button>
+  <button id="noBtn">No </button>
+</div>
+
+<div id="message"></div>
+
+<!-- balloons -->
+<div class="balloon" style="top:100px;left:60px;background:pink"></div>
+<div class="balloon" style="top:200px;left:400px;background:red"></div>
+<div class="balloon" style="top:150px;left:700px;background:#ff69b4"></div>
+
+<!-- falling hearts -->
+<div class="heart" style="left:100px"></div>
+<div class="heart" style="left:300px"></div>
+<div class="heart" style="left:600px"></div>
+
+<!-- BIG LOVE SCREEN -->
+<div id="loveScreen">
+  <h2>Yahoo! I know my kanchi,<br>I love you too HAHAHAHA! </h2>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const message = document.getElementById("message");
+const loveScreen = document.getElementById("loveScreen");
+
+const funnyTexts = [
+  "Hey hey! Wrong choice ",
+  "Catch me first!",
+  "Nope nope nope ",
+  "You can't say no to love!",
+  "Try again sweetheart "
+];
+
+function moveButton() {
+  const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+  const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+
+  noBtn.style.position = "absolute";
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+
+  message.innerText =
+    funnyTexts[Math.floor(Math.random() * funnyTexts.length)];
+}
+
+noBtn.addEventListener("mouseover", moveButton);
+noBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  moveButton();
+});
+
+yesBtn.addEventListener("click", () => {
+  loveScreen.style.display = "flex";
+
+  // extra hearts burst
+  for (let i = 0; i < 25; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.top = "-20px";
+    heart.style.animationDuration = (3 + Math.random() * 2) + "s";
+    document.body.appendChild(heart);
+  }
+});
+</script>
+
+</body>
+</html>
